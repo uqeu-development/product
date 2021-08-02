@@ -1,0 +1,46 @@
+[data-sku] {
+  font-family: UNIQLO PRO;
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  [data-product-name] {
+    margin: 0px;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  [data-product-price] {
+    margin: 0px;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  [data-product-salePrice] {
+    color: red;
+    margin: 0px;
+  }
+  .line-through {
+    text-decoration: line-through;
+    color: grey;
+  }
+  [data-product-swatches] {
+    display: flex;
+    list-style-type: none;
+    padding-left: 0px;
+    margin: 5px 0px 0px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #f2f2f2;
+    li {
+      min-width: 20px;
+      min-height: 20px;
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      img {
+        width: 100%;
+      }
+    }
+  }
+}

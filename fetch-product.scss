@@ -10,6 +10,12 @@
     text-transform: uppercase;
     font-weight: 400;
   }
+  .coming-soon-msg {
+    color: red !important;
+    font-weight: 400;
+    font-family: Helvetica, sans-serif;
+    text-transform: capitalize;
+  }
   [data-product-price] {
     margin: 0px;
     font-size: 14px;

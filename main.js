@@ -1,35 +1,43 @@
 
 let region = 'GB';
+let comingSoonMsg = 'Coming soon...';
 let skus = ''
 let urlPrefix = "https://www.uniqlo.com";
 if (window.location.href.includes("prodtest")) urlPrefix = 'https://prodtest.uniqlo.com'
 let totalFetchedProducts = [];
 let totalProducts = [];
 
-
 if (window.location.href.includes('uk/en')) {
-    region = 'GB'
+    region = 'GB';
+    comingSoonMsg = 'Coming soon...';
 } else if (window.location.href.includes('se/en')) {
-    region = 'SE'
+    region = 'SE';
+    comingSoonMsg = 'Coming soon...';
 } else if (window.location.href.includes('dk/en')) {
-    region = 'DK'
+    region = 'DK';
+    comingSoonMsg = 'Coming soon...';
 } else if (window.location.href.includes('eu/en')) {
-    region = 'EU'
+    region = 'EU';
+    comingSoonMsg = 'Coming soon...';
 } else if (window.location.href.includes('es/es')) {
-    region = 'ES'
+    region = 'ES';
+    comingSoonMsg = 'Próximamente...';
 } else if (window.location.href.includes('fr/fr')) {
-    region = 'FR'
+    region = 'FR';
+    comingSoonMsg = 'Bientôt disponible...';
 } else if (window.location.href.includes('de/de')) {
-    region = 'DE'
+    region = 'DE';
+    comingSoonMsg = 'Demnächst...';
 } else if (window.location.href.includes('it/it')) {
-    region = 'IT'
+    region = 'IT';
+    comingSoonMsg = 'Prossimamente...'
 }
 
-// const productElements = $(document).find('[data-sku]');
 const productElements = document.querySelectorAll('[data-sku]')
+
 Array.from(productElements).map((prod, index) => {
     !totalProducts.includes(prod.dataset.sku) ? totalProducts.push(prod.dataset.sku) : null; // push to the array if it doesn't exist
-    skus += `&item${index}=${prod.dataset.sku}` //output: &item0=12345&item1=67891&item2=25468
+    skus += `&item${index}=${prod.dataset.sku}`; //output: &item0=12345&item1=67891&item2=25468
 })
 
 let link = `${urlPrefix}/on/demandware.store/Sites-${region}-Site/default/Recommendations-Ajax?&${skus}`;
@@ -45,14 +53,14 @@ const fetchProducts = () => fetch(link)
         if (!response.body.hasChildNodes) return //wasn't able to find anything
 
         Array.from(response.body.children).forEach((product) => {
-            const sku = product.querySelector('[data-dlmasterid]').dataset.dlmasterid;
+            const sku = product.querySelector('[data-dlmasterid]')?.dataset?.dlmasterid;
             totalFetchedProducts.push(sku);
-            const name = product.querySelector('.productTile__link').title;
+            const name = product.querySelector('.productTile__link')?.title;
             const price = product.querySelector('.product-standard-price')?.innerText || product.querySelector('.product-current-price')?.innerText;
             const salePrice = product.querySelector('.product-sales-price')?.innerText || '';
-            const swatches = product.querySelector('.productTile__swatchList').innerHTML;
-            const asset = product.querySelector('.productTile__image').src;
-            const url = product.querySelector('.productTile__link').href;
+            const swatches = product.querySelector('.productTile__swatchList')?.innerHTML;
+            const asset = product.querySelector('.productTile__image')?.src;
+            const url = product.querySelector('.productTile__link')?.href;
 
             Array.from(document.body.querySelectorAll(`[data-sku="${sku}"]`)).forEach(prod => {
                 prod.querySelector('[data-product-name]') ? prod.querySelector('[data-product-name]').innerText = name : "";
@@ -88,6 +96,20 @@ const dev = () => {
     const difference = totalProducts.filter(x => !totalFetchedProducts.includes(x));
     console.log({ totalProducts, totalFetchedProducts, totalFailed: difference })
 }
+
+//Add coming soon to non live products
+const addComingSoonMsg = () => {
+    const skusToAddMsg = totalProducts.filter(x => !totalFetchedProducts.includes(x));
+    skusToAddMsg.forEach(sku => {
+        Array.from(document.querySelectorAll(`[data-sku="${sku}"]`)).forEach((el) => {
+            el.querySelector('[data-product-name]') ? el.querySelector('[data-product-name]').innerText = comingSoonMsg : console.error('data-product-name not found.')
+            el.querySelector('[data-product-name]') ? el.querySelector('[data-product-name]').classList.add('coming-soon-msg') : ""
+            el.querySelector('[data-product-url]') ? el.querySelector('[data-product-url]').style.pointerEvents = "none" : ""
+        })
+    })
+}
+
+
 
 
 fetchProducts() //init fetch

@@ -1,4 +1,3 @@
-
 let region = 'GB';
 let comingSoonMsg = 'Coming soon...';
 let skus = ''
@@ -35,6 +34,7 @@ if (window.location.href.includes('uk/en')) {
 
 const productElements = document.querySelectorAll('[data-sku]')
 
+
 Array.from(productElements).map((prod, index) => {
     !totalProducts.includes(prod.dataset.sku) ? totalProducts.push(prod.dataset.sku) : null; // push to the array if it doesn't exist
     skus += `&item${index}=${prod.dataset.sku}`; //output: &item0=12345&item1=67891&item2=25468
@@ -47,13 +47,16 @@ const fetchProducts = () => fetch(link)
         if (!data.ok) throw error;
         const text = await data.text();
 
+
         let parser = new DOMParser();
         let response = parser.parseFromString(text, 'text/html');
+
 
         if (!response.body.hasChildNodes) return //wasn't able to find anything
 
         Array.from(response.body.children).forEach((product) => {
-            const sku = product.querySelector('[data-dlmasterid]')?.dataset?.dlmasterid;
+
+            const sku = product.querySelector('[data-dlmasterid]').dataset?.dlmasterid;
             totalFetchedProducts.push(sku);
             const name = product.querySelector('.productTile__link')?.title;
             const price = product.querySelector('.product-standard-price')?.innerText || product.querySelector('.product-current-price')?.innerText;
@@ -66,7 +69,9 @@ const fetchProducts = () => fetch(link)
                 prod.querySelector('[data-product-name]') ? prod.querySelector('[data-product-name]').innerText = name : "";
                 prod.querySelector('[data-product-price]') ? prod.querySelector('[data-product-price]').innerText = price : "";
                 prod.querySelector('[data-product-salePrice]') ? prod.querySelector('[data-product-salePrice]').innerText = salePrice : "";
-                if (salePrice.length > 0) prod.querySelector('[data-product-price]').classList.add('line-through');
+                if (prod.querySelector('[data-product-price]')) {
+                    if (salePrice.length > 0) prod.querySelector('[data-product-price]').classList.add('line-through');
+                }
                 prod.querySelector('[data-product-swatches]') ? prod.querySelector('[data-product-swatches]').innerHTML = swatches : ""
                 prod.querySelector('[data-product-image]') ? prod.querySelector('[data-product-image]').src = asset : "";
                 prod.querySelector('[data-product-url]') ? prod.querySelector('[data-product-url]').href = url : "";
@@ -79,7 +84,7 @@ const fetchProducts = () => fetch(link)
         }
 
     })
-    .catch(() => { })
+    .catch((error) => { console.log(error) })
 
 //clean up will remove all empty blocks
 const cleanUp = () => {
@@ -113,7 +118,6 @@ const addComingSoonMsg = () => {
 
 
 fetchProducts() //init fetch
-
 
 
 

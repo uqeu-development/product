@@ -26,7 +26,7 @@ if (window.location.href.includes('uk/en')) {
     comingSoonMsg = 'Bientôt disponible...';
 } else if (window.location.href.includes('de/de')) {
     region = 'DE';
-    comingSoonMsg = 'Demnächst...';
+    comingSoonMsg = 'Demnächst';
 } else if (window.location.href.includes('it/it')) {
     region = 'IT';
     comingSoonMsg = 'Prossimamente...'

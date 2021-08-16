@@ -20,7 +20,7 @@ if (window.location.href.includes('uk/en')) {
     comingSoonMsg = 'Coming soon...';
 } else if (window.location.href.includes('es/es')) {
     region = 'ES';
-    comingSoonMsg = 'Próximamente...';
+    comingSoonMsg = 'Muy pronto';
 } else if (window.location.href.includes('fr/fr')) {
     region = 'FR';
     comingSoonMsg = 'Bientôt disponible...';

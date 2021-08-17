@@ -40,7 +40,7 @@ Array.from(productElements).map((prod, index) => {
     skus += `&item${index}=${prod.dataset.sku}`; //output: &item0=12345&item1=67891&item2=25468
 })
 
-let link = `${urlPrefix}/on/demandware.store/Sites-${region}-Site/default/Recommendations-Ajax?&${skus}`;
+let link = `${urlPrefix}/on/demandware.store/Sites-${region}-Site/default/Recommendations-Ajax?&${skus}&src=appexclusive`;
 
 const fetchProducts = () => fetch(link)
     .then(async data => {

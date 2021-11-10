@@ -48,6 +48,7 @@ const fetchProducts = () => fetch(link)
         const text = await data.text();
 
 
+
         let parser = new DOMParser();
         let response = parser.parseFromString(text, 'text/html');
 
@@ -61,7 +62,10 @@ const fetchProducts = () => fetch(link)
             const name = product.querySelector('.productTile__link')?.title;
             const price = product.querySelector('.product-standard-price')?.innerText || product.querySelector('.product-current-price')?.innerText;
             const salePrice = product.querySelector('.product-sales-price')?.innerText || '';
-            const swatches = product.querySelector('.productTile__swatchList')?.innerHTML;
+            let swatches = product.querySelector('.productTile__swatchList')?.innerHTML;
+
+            // temp fix
+            swatches = swatches.replaceAll('pe="page" /&gt;', "")
             const asset = product.querySelector('.productTile__image')?.src;
             const url = product.querySelector('.productTile__link')?.href;
 
@@ -118,6 +122,5 @@ const addComingSoonMsg = () => {
 
 
 fetchProducts() //init fetch
-
 
 

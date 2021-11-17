@@ -40,7 +40,7 @@ Array.from(productElements).map((prod, index) => {
     skus += `&item${index}=${prod.dataset.sku}`; //output: &item0=12345&item1=67891&item2=25468
 })
 
-let link = `${urlPrefix}/on/demandware.store/Sites-${region}-Site/default/Recommendations-Ajax?&${skus}`;
+let link = `${urlPrefix}/on/demandware.store/Sites-${region}-Site/default/Recommendations-Ajax?&${skus}&showrating=true`;
 
 const fetchProducts = () => fetch(link)
     .then(async data => {
@@ -64,10 +64,13 @@ const fetchProducts = () => fetch(link)
             const salePrice = product.querySelector('.product-sales-price')?.innerText || '';
             let swatches = product.querySelector('.productTile__swatchList')?.innerHTML;
 
-            // temp fix
-            swatches = swatches.replaceAll('pe="page" /&gt;', "")
             const asset = product.querySelector('.productTile__image')?.src;
             const url = product.querySelector('.productTile__link')?.href;
+
+            const rating = product.querySelector('.productTile__bazaarVoice')?.dataset.bvaveragerating;
+            const ratingCount = product.querySelector('.productTile__bazaarVoice')?.dataset.bvreviewcount;
+
+            console.log(rating, ratingCount)
 
             Array.from(document.body.querySelectorAll(`[data-sku="${sku}"]`)).forEach(prod => {
                 prod.querySelector('[data-product-name]') ? prod.querySelector('[data-product-name]').innerText = name : "";
@@ -79,6 +82,11 @@ const fetchProducts = () => fetch(link)
                 prod.querySelector('[data-product-swatches]') ? prod.querySelector('[data-product-swatches]').innerHTML = swatches : ""
                 prod.querySelector('[data-product-image]') ? prod.querySelector('[data-product-image]').src = asset : "";
                 prod.querySelector('[data-product-url]') ? prod.querySelector('[data-product-url]').href = url : "";
+                prod.querySelector('[data-product-rating]') ? prod.querySelector('[data-product-rating]').dataset.productRating = rating: "";
+                
+                prod.querySelector('[data-product-stars]') ? prod.querySelector('[data-product-stars]').style.width = `${rating/5 * 100}%`: "";
+                prod.querySelector('[data-product-ratingCount]') ? prod.querySelector('[data-product-ratingCount]').innerHTML = `(${ratingCount})` : ""
+                prod.querySelector('[data-product-ratingNum]') ? prod.querySelector('[data-product-ratingNum]').innerHTML = `${Math.round(rating * 10) / 10}` : ""
             })
 
         })

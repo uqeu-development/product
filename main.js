@@ -70,23 +70,66 @@ const fetchProducts = () => fetch(link)
             const rating = product.querySelector('.productTile__bazaarVoice')?.dataset.bvaveragerating;
             const ratingCount = product.querySelector('.productTile__bazaarVoice')?.dataset.bvreviewcount;
 
-            console.log(rating, ratingCount)
-
             Array.from(document.body.querySelectorAll(`[data-sku="${sku}"]`)).forEach(prod => {
-                prod.querySelector('[data-product-name]') ? prod.querySelector('[data-product-name]').innerText = name : "";
-                prod.querySelector('[data-product-price]') ? prod.querySelector('[data-product-price]').innerText = price : "";
-                prod.querySelector('[data-product-salePrice]') ? prod.querySelector('[data-product-salePrice]').innerText = salePrice : "";
-                if (prod.querySelector('[data-product-price]')) {
-                    if (salePrice.length > 0) prod.querySelector('[data-product-price]').classList.add('line-through');
-                }
-                prod.querySelector('[data-product-swatches]') ? prod.querySelector('[data-product-swatches]').innerHTML = swatches : ""
-                prod.querySelector('[data-product-image]') ? prod.querySelector('[data-product-image]').src = asset : "";
-                prod.querySelector('[data-product-url]') ? prod.querySelector('[data-product-url]').href = url : "";
-                prod.querySelector('[data-product-rating]') ? prod.querySelector('[data-product-rating]').dataset.productRating = rating: "";
                 
-                prod.querySelector('[data-product-stars]') ? prod.querySelector('[data-product-stars]').style.width = `${rating/5 * 100}%`: "";
-                prod.querySelector('[data-product-ratingCount]') ? prod.querySelector('[data-product-ratingCount]').innerHTML = `(${ratingCount})` : ""
-                prod.querySelector('[data-product-ratingNum]') ? prod.querySelector('[data-product-ratingNum]').innerHTML = `${Math.round(rating * 10) / 10}` : ""
+                prod.querySelector('[data-product-name]') ? 
+                prod.querySelectorAll('[data-product-name]').forEach(nameAttribute=>{
+                    nameAttribute.innerText = name
+                }): "";
+               
+                prod.querySelector('[data-product-price]') ? 
+                prod.querySelectorAll('[data-product-price]').forEach(priceAttribute =>{
+                    priceAttribute.innerText = price;
+                }): "";
+
+                prod.querySelector('[data-product-salePrice]') ? 
+                prod.querySelectorAll('[data-product-salePrice]').forEach(salePriceAttribute=>{
+                    salePriceAttribute.innerText = salePrice;
+                }): "";
+
+                if (prod.querySelector('[data-product-price]')) {
+                    if (salePrice.length > 0) {
+                        prod.querySelectorAll('[data-product-price]').forEach(priceAttribute=>{
+                            priceAttribute.classList.add('line-through');
+                        })
+                    }
+                }
+
+                prod.querySelector('[data-product-swatches]') ?
+                prod.querySelectorAll('[data-product-swatches]').forEach(swatchesAttributes=>{
+                    swatchesAttributes.innerHTML = swatches;
+                }) : "";
+
+
+                prod.querySelector('[data-product-image]') ? 
+                prod.querySelectorAll('[data-product-image]').forEach(imageAttribute=>{
+                    imageAttribute.src = asset;
+                }): ""
+
+                prod.querySelector('[data-product-url]') ?
+                prod.querySelectorAll('[data-product-url]').forEach(urlAttribute=>{
+                    urlAttribute.href = url;
+                }) : "";
+
+                prod.querySelector('[data-product-rating]') ?
+                prod.querySelectorAll('[data-product-rating]').forEach(ratingAttribute=>{
+                    ratingAttribute.dataset.productRating = rating;
+                }):"";
+
+                prod.querySelector('[data-product-stars]') ?
+                prod.querySelectorAll('[data-product-stars]').forEach(starAttribute=>{
+                    starAttribute.style.width = `${rating/5 * 100}%`;
+                }): "";
+
+                prod.querySelector('[data-product-ratingCount]') ?
+                prod.querySelectorAll('[data-product-ratingCount]').forEach(ratingCountAttribute=>{
+                    ratingCountAttribute.innerHTML = `(${ratingCount})`;
+                }): "";
+
+                prod.querySelector('[data-product-ratingNum]') ?
+                prod.querySelectorAll('[data-product-ratingNum]').forEach(ratingNumAttribute=>{
+                    ratingNumAttribute.innerHTML = `${Math.round(rating * 10) / 10}`;
+                }):"";
             })
 
         })
@@ -119,9 +162,17 @@ const addComingSoonMsg = () => {
     const skusToAddMsg = totalProducts.filter(x => !totalFetchedProducts.includes(x));
     skusToAddMsg.forEach(sku => {
         Array.from(document.querySelectorAll(`[data-sku="${sku}"]`)).forEach((el) => {
-            el.querySelector('[data-product-name]') ? el.querySelector('[data-product-name]').innerText = comingSoonMsg : console.error('data-product-name not found.')
-            el.querySelector('[data-product-name]') ? el.querySelector('[data-product-name]').classList.add('coming-soon-msg') : ""
-            el.querySelector('[data-product-url]') ? el.querySelector('[data-product-url]').style.pointerEvents = "none" : ""
+            
+            el.querySelector('[data-product-name]') ? 
+            el.querySelectorAll('[data-product-name]').forEach(productName =>{
+                productName.innerText = comingSoonMsg;
+                productName.classList.add('coming-soon-msg');
+            }): console.log('data-product-name not found');
+
+            el.querySelector('[data-product-url]')?
+            el.querySelector('[data-product-url]').forEach(urlAttribute=>{
+                urlAttribute.style.pointerEvents = "none";
+            }): "";
         })
     })
 }

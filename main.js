@@ -170,7 +170,7 @@ const addComingSoonMsg = () => {
             }): console.log('data-product-name not found');
 
             el.querySelector('[data-product-url]')?
-            el.querySelector('[data-product-url]').forEach(urlAttribute=>{
+            el.querySelectorAll('[data-product-url]').forEach(urlAttribute=>{
                 urlAttribute.style.pointerEvents = "none";
             }): "";
         })

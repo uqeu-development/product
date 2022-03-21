@@ -63,6 +63,9 @@ const fetchProducts = () => fetch(link)
             const price = product.querySelector('.product-standard-price')?.innerText || product.querySelector('.product-current-price')?.innerText;
             const salePrice = product.querySelector('.product-sales-price')?.innerText || '';
             const saleBadge = product.querySelector('.soldes')?.innerText.replace(/(\r\n|\n|\r)/gm," ");
+            
+            
+            
             const extendedsizeBadge = product.querySelector('.extendedSize')?.innerText;
             
             let swatches = product.querySelector('.productTile__swatchList')?.innerHTML;
@@ -102,6 +105,11 @@ const fetchProducts = () => fetch(link)
                 prod.querySelectorAll('[data-product-salebadge]').forEach(saleBadgeAttribute=>{
                     saleBadgeAttribute.innerText = saleBadge;
                 }): ""
+            
+
+                if (typeof(saleBadge) != "undefined")  {
+                  $(".label").hide();
+                }
             
                         
                 prod.querySelector('[data-product-swatches]') ?

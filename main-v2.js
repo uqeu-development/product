@@ -196,6 +196,6 @@ const addComingSoonMsg = () => {
 
 
 
-// HELLO WORLD
+// HELLO WORLD v2
 
 fetchProducts() //init fetch

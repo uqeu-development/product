@@ -104,12 +104,19 @@ const fetchProducts = () => fetch(link)
                 prod.querySelector('[data-product-salebadge]') ? 
                 prod.querySelectorAll('[data-product-salebadge]').forEach(saleBadgeAttribute=>{
                     saleBadgeAttribute.innerText = saleBadge;
+                    
+                    if (saleBadge)  {
+                      saleBadgeAttribute.innerText = saleBadge
+
+                    } else {
+                        saleBadgeAttribute.style.display = 'none'
+                    }
+                                
+                    
                 }): ""
             
 
-                if (typeof(saleBadge) != "undefined")  {
-                  $(".label").hide();
-                }
+
             
                         
                 prod.querySelector('[data-product-swatches]') ?
@@ -196,6 +203,6 @@ const addComingSoonMsg = () => {
 
 
 
-// HELLO WORLD v2
+// HELLO WORLD
 
 fetchProducts() //init fetch

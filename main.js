@@ -62,6 +62,12 @@ const fetchProducts = () => fetch(link)
             const name = product.querySelector('.productTile__link')?.title;
             const price = product.querySelector('.product-standard-price')?.innerText || product.querySelector('.product-current-price')?.innerText;
             const salePrice = product.querySelector('.product-sales-price')?.innerText || '';
+            const saleBadge = product.querySelector('.soldes')?.innerText.replace(/(\r\n|\n|\r)/gm," ");
+            
+            
+            
+            const extendedsizeBadge = product.querySelector('.extendedSize')?.innerText;
+            
             let swatches = product.querySelector('.productTile__swatchList')?.innerHTML;
 
             const asset = product.querySelector('.productTile__image')?.src;
@@ -86,7 +92,7 @@ const fetchProducts = () => fetch(link)
                 prod.querySelectorAll('[data-product-salePrice]').forEach(salePriceAttribute=>{
                     salePriceAttribute.innerText = salePrice;
                 }): "";
-
+            
                 if (prod.querySelector('[data-product-price]')) {
                     if (salePrice.length > 0) {
                         prod.querySelectorAll('[data-product-price]').forEach(priceAttribute=>{
@@ -95,6 +101,24 @@ const fetchProducts = () => fetch(link)
                     }
                 }
 
+                prod.querySelector('[data-product-salebadge]') ? 
+                prod.querySelectorAll('[data-product-salebadge]').forEach(saleBadgeAttribute=>{
+                    saleBadgeAttribute.innerText = saleBadge;
+                    
+                    if (saleBadge)  {
+                      saleBadgeAttribute.innerText = saleBadge
+
+                    } else {
+                        saleBadgeAttribute.style.display = 'none'
+                    }
+                                
+                    
+                }): ""
+            
+
+
+            
+                        
                 prod.querySelector('[data-product-swatches]') ?
                 prod.querySelectorAll('[data-product-swatches]').forEach(swatchesAttributes=>{
                     swatchesAttributes.innerHTML = swatches;
@@ -179,7 +203,6 @@ const addComingSoonMsg = () => {
 
 
 
+// HELLO WORLD
 
 fetchProducts() //init fetch
-
-

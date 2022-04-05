@@ -26,6 +26,15 @@
     color: red;
     margin: 0px;
   }
+  [data-product-salebadge] {
+    position: absolute;
+    bottom: 15px;
+    padding: 2px 5px;
+    background-color: white;
+    color: red;
+    text-transform: uppercase;
+    font-size: 12px;
+  }  
   .line-through {
     text-decoration: line-through;
     color: grey;

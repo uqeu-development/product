@@ -1,4 +1,4 @@
-let region = 'GB';
+var region = 'GB';
 let comingSoonMsg = 'Coming soon...';
 let skus = ''
 let urlPrefix = "https://www.uniqlo.com";

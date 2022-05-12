@@ -176,7 +176,7 @@ const cleanUp = () => {
 
 }
 
-const dev = () => {
+const devDebug = () => {
     const difference = totalProducts.filter(x => !totalFetchedProducts.includes(x));
     console.log({ totalProducts, totalFetchedProducts, totalFailed: difference })
 }

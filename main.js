@@ -1,4 +1,5 @@
 var region = 'GB';
+var language = "default"
 let comingSoonMsg = 'Coming soon...';
 let skus = ''
 let urlPrefix = "https://www.uniqlo.com";
@@ -30,6 +31,20 @@ if (window.location.href.includes('uk/en')) {
 } else if (window.location.href.includes('it/it')) {
     region = 'IT';
     comingSoonMsg = 'Prossimamente...'
+} else if (window.location.href.includes('nl/en')) {
+    language = "en_NL"
+    region = 'NL';
+    comingSoonMsg = 'Coming soon...'
+} else if (window.location.href.includes('nl/nl')) {
+    region = 'NL';
+    comingSoonMsg = ''
+} else if (window.location.href.includes('be/nl')) {
+    region = 'BE';
+    comingSoonMsg = ''
+} else if (window.location.href.includes('be/fr')) {
+    language = "fr_BE"
+    region = 'BE';
+    comingSoonMsg = 'Bientôt disponible...'
 }
 
 const productElements = document.querySelectorAll('[data-sku]')
@@ -40,7 +55,7 @@ Array.from(productElements).map((prod, index) => {
     skus += `&item${index}=${prod.dataset.sku}`; //output: &item0=12345&item1=67891&item2=25468
 })
 
-let link = `${urlPrefix}/on/demandware.store/Sites-${region}-Site/default/Recommendations-Ajax?&${skus}&showrating=true`;
+let link = `${urlPrefix}/on/demandware.store/Sites-${region}-Site/${language}/Recommendations-Ajax?&${skus}&showrating=true`;
 
 const fetchProducts = () => fetch(link)
     .then(async data => {
@@ -62,12 +77,12 @@ const fetchProducts = () => fetch(link)
             const name = product.querySelector('.productTile__link')?.title;
             const price = product.querySelector('.product-standard-price')?.innerText || product.querySelector('.product-current-price')?.innerText;
             const salePrice = product.querySelector('.product-sales-price')?.innerText || '';
-            const saleBadge = product.querySelector('.soldes')?.innerText.replace(/(\r\n|\n|\r)/gm," ");
-            
-            
-            
+            const saleBadge = product.querySelector('.soldes')?.innerText.replace(/(\r\n|\n|\r)/gm, " ");
+
+
+
             const extendedsizeBadge = product.querySelector('.extendedSize')?.innerText;
-            
+
             let swatches = product.querySelector('.productTile__swatchList')?.innerHTML;
 
             const asset = product.querySelector('.productTile__image')?.src;
@@ -77,83 +92,83 @@ const fetchProducts = () => fetch(link)
             const ratingCount = product.querySelector('.productTile__bazaarVoice')?.dataset.bvreviewcount;
 
             Array.from(document.body.querySelectorAll(`[data-sku="${sku}"]`)).forEach(prod => {
-                
-                prod.querySelector('[data-product-name]') ? 
-                prod.querySelectorAll('[data-product-name]').forEach(nameAttribute=>{
-                    nameAttribute.innerText = name
-                }): "";
-               
-                prod.querySelector('[data-product-price]') ? 
-                prod.querySelectorAll('[data-product-price]').forEach(priceAttribute =>{
-                    priceAttribute.innerText = price;
-                }): "";
 
-                prod.querySelector('[data-product-salePrice]') ? 
-                prod.querySelectorAll('[data-product-salePrice]').forEach(salePriceAttribute=>{
-                    salePriceAttribute.innerText = salePrice;
-                }): "";
-            
+                prod.querySelector('[data-product-name]') ?
+                    prod.querySelectorAll('[data-product-name]').forEach(nameAttribute => {
+                        nameAttribute.innerText = name
+                    }) : "";
+
+                prod.querySelector('[data-product-price]') ?
+                    prod.querySelectorAll('[data-product-price]').forEach(priceAttribute => {
+                        priceAttribute.innerText = price;
+                    }) : "";
+
+                prod.querySelector('[data-product-salePrice]') ?
+                    prod.querySelectorAll('[data-product-salePrice]').forEach(salePriceAttribute => {
+                        salePriceAttribute.innerText = salePrice;
+                    }) : "";
+
                 if (prod.querySelector('[data-product-price]')) {
                     if (salePrice.length > 0) {
-                        prod.querySelectorAll('[data-product-price]').forEach(priceAttribute=>{
+                        prod.querySelectorAll('[data-product-price]').forEach(priceAttribute => {
                             priceAttribute.classList.add('line-through');
                         })
                     }
                 }
 
-                prod.querySelector('[data-product-salebadge]') ? 
-                prod.querySelectorAll('[data-product-salebadge]').forEach(saleBadgeAttribute=>{
-                    saleBadgeAttribute.innerText = saleBadge;
-                    
-                    if (saleBadge)  {
-                      saleBadgeAttribute.innerText = saleBadge
+                prod.querySelector('[data-product-salebadge]') ?
+                    prod.querySelectorAll('[data-product-salebadge]').forEach(saleBadgeAttribute => {
+                        saleBadgeAttribute.innerText = saleBadge;
 
-                    } else {
-                        saleBadgeAttribute.style.display = 'none'
-                    }
-                                
-                    
-                }): ""
-            
+                        if (saleBadge) {
+                            saleBadgeAttribute.innerText = saleBadge
+
+                        } else {
+                            saleBadgeAttribute.style.display = 'none'
+                        }
 
 
-            
-                        
+                    }) : ""
+
+
+
+
+
                 prod.querySelector('[data-product-swatches]') ?
-                prod.querySelectorAll('[data-product-swatches]').forEach(swatchesAttributes=>{
-                    swatchesAttributes.innerHTML = swatches;
-                }) : "";
+                    prod.querySelectorAll('[data-product-swatches]').forEach(swatchesAttributes => {
+                        swatchesAttributes.innerHTML = swatches;
+                    }) : "";
 
 
-                prod.querySelector('[data-product-image]') ? 
-                prod.querySelectorAll('[data-product-image]').forEach(imageAttribute=>{
-                    imageAttribute.src = asset;
-                }): ""
+                prod.querySelector('[data-product-image]') ?
+                    prod.querySelectorAll('[data-product-image]').forEach(imageAttribute => {
+                        imageAttribute.src = asset;
+                    }) : ""
 
                 prod.querySelector('[data-product-url]') ?
-                prod.querySelectorAll('[data-product-url]').forEach(urlAttribute=>{
-                    urlAttribute.href = url;
-                }) : "";
+                    prod.querySelectorAll('[data-product-url]').forEach(urlAttribute => {
+                        urlAttribute.href = url;
+                    }) : "";
 
                 prod.querySelector('[data-product-rating]') ?
-                prod.querySelectorAll('[data-product-rating]').forEach(ratingAttribute=>{
-                    ratingAttribute.dataset.productRating = rating;
-                }):"";
+                    prod.querySelectorAll('[data-product-rating]').forEach(ratingAttribute => {
+                        ratingAttribute.dataset.productRating = rating;
+                    }) : "";
 
                 prod.querySelector('[data-product-stars]') ?
-                prod.querySelectorAll('[data-product-stars]').forEach(starAttribute=>{
-                    starAttribute.style.width = `${rating/5 * 100}%`;
-                }): "";
+                    prod.querySelectorAll('[data-product-stars]').forEach(starAttribute => {
+                        starAttribute.style.width = `${rating / 5 * 100}%`;
+                    }) : "";
 
                 prod.querySelector('[data-product-ratingCount]') ?
-                prod.querySelectorAll('[data-product-ratingCount]').forEach(ratingCountAttribute=>{
-                    ratingCountAttribute.innerHTML = `(${ratingCount})`;
-                }): "";
+                    prod.querySelectorAll('[data-product-ratingCount]').forEach(ratingCountAttribute => {
+                        ratingCountAttribute.innerHTML = `(${ratingCount})`;
+                    }) : "";
 
                 prod.querySelector('[data-product-ratingNum]') ?
-                prod.querySelectorAll('[data-product-ratingNum]').forEach(ratingNumAttribute=>{
-                    ratingNumAttribute.innerHTML = `${Math.round(rating * 10) / 10}`;
-                }):"";
+                    prod.querySelectorAll('[data-product-ratingNum]').forEach(ratingNumAttribute => {
+                        ratingNumAttribute.innerHTML = `${Math.round(rating * 10) / 10}`;
+                    }) : "";
             })
 
         })
@@ -186,17 +201,17 @@ const addComingSoonMsg = () => {
     const skusToAddMsg = totalProducts.filter(x => !totalFetchedProducts.includes(x));
     skusToAddMsg.forEach(sku => {
         Array.from(document.querySelectorAll(`[data-sku="${sku}"]`)).forEach((el) => {
-            
-            el.querySelector('[data-product-name]') ? 
-            el.querySelectorAll('[data-product-name]').forEach(productName =>{
-                productName.innerText = comingSoonMsg;
-                productName.classList.add('coming-soon-msg');
-            }): console.log('data-product-name not found');
 
-            el.querySelector('[data-product-url]')?
-            el.querySelectorAll('[data-product-url]').forEach(urlAttribute=>{
-                urlAttribute.style.pointerEvents = "none";
-            }): "";
+            el.querySelector('[data-product-name]') ?
+                el.querySelectorAll('[data-product-name]').forEach(productName => {
+                    productName.innerText = comingSoonMsg;
+                    productName.classList.add('coming-soon-msg');
+                }) : console.log('data-product-name not found');
+
+            el.querySelector('[data-product-url]') ?
+                el.querySelectorAll('[data-product-url]').forEach(urlAttribute => {
+                    urlAttribute.style.pointerEvents = "none";
+                }) : "";
         })
     })
 }
